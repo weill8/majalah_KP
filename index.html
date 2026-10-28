@@ -104,6 +104,19 @@
       <span id="ct"></span
       ><button id="nx" aria-label="Berikutnya / Next">›</button>
     </nav>
+    <div id="chat" hidden role="dialog" aria-modal="true" aria-label="Chat">
+      <div class="cb-hd">
+        <button id="cx" aria-label="Kembali / Back">‹</button>
+        <div>
+          <b>♻️ EcoExperiment</b><small>Asisten AI · AI assistant</small>
+        </div>
+      </div>
+      <div id="msgs" aria-live="polite"></div>
+      <form id="cf">
+        <input id="ci" autocomplete="off" maxlength="500" />
+        <button id="cs" aria-label="Kirim / Send">➤</button>
+      </form>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>

@@ -252,12 +252,24 @@ const S = [
     ],
     w: [["raka"], ["dimas"], ["bima"], ["sari"], ["joko"]],
   },
+
+          {
+          h: ["Ngobrol Yuk", "Let’s Chat"],
+          p: [
+            "Punya pertanyaan atau cerita tentang sampah plastik? Bagikan bersama asisten AI kami.",
+            "Have a question or a story about plastic waste? Share it with our AI assistant.",
+          ],
+          cta: [
+            "Mari mengobrol tentang kasih universal",
+            "Let’s talk about universal love",
+          ],
+        },
 ];
 const TH = {
   d: ["#8fd8f5", "#e9fbff", "#FFE27A", "#a6e0a2", "#86d68f", "#6fc57f"],
   s: ["#ff9e7a", "#ffe3a3", "#fff3b0", "#d9a36b", "#b7935b", "#8fb36a"],
 };
-const M = "ddpppppswkd";
+const M = "ddpppppswkdk";
 const tree = (x, y, s) =>
   `<g transform="translate(${x} ${y - 20}) scale(${s})"><rect x="-6" y="0" width="12" height="42" fill="#8a5a3c"/><circle cx="0" cy="-8" r="30" fill="#3fae6e"/><circle cx="-20" cy="10" r="22" fill="#4fc27e"/><circle cx="20" cy="10" r="22" fill="#4fc27e"/></g>`;
 const scene = (n) => {
@@ -323,7 +335,7 @@ function render() {
   $("lg").textContent = L ? "ID" : "EN";
   $("tr").innerHTML = S.map(
     (s, n) =>
-      `<section class="s ${[0, 1, 10].includes(n) ? "up " : ""}${[2, 3, 5, 6, 7].includes(n) ? "bl" : ""}">${scene(n)}<div class="sc"><div class="in"><h1>${s.h[L]}</h1>${s.p ? `<p>${s.p[L]}</p>` : ""}${s.w ? `<div class="st" style="--n:${s.w.length};--r:${s.w.some((x) => x[1]) ? s.w.length + 1 : 1}">${s.w.map(([k, t, m], j) => `${t ? `<div class="b" style="--d:${j + 1};--j:${j + 1};--c:${C[k].shirt}"><b class="bn">${C[k].n}</b>${t[L]}</div>` : ""}<div class="av" style="--j:${j + 1}">${ch(k, m)}<span class="nm">${C[k].n}</span></div>`).join("")}</div>` : ""}${s.l ? `<ul>${s.l.map((t) => `<li>${t[L]}</li>`).join("")}</ul>` : ""}${s.d ? `<div class="dm">${s.d.map(([c, t, x]) => `<div style="--c:${c}"><h2>${t[L]}</h2><p>${x[L]}</p></div>`).join("")}</div>` : ""}${s.lit ? lit(s.lit) : ""}${s.n ? `<small>${s.n[L]}</small>` : ""}</div></div></section>`,
+      `<section class="s ${[0, 1, 10].includes(n) ? "up " : ""}${[2, 3, 5, 6, 7].includes(n) ? "bl" : ""}">${scene(n)}<div class="sc"><div class="in"><h1>${s.h[L]}</h1>${s.p ? `<p>${s.p[L]}</p>` : ""}${s.w ? `<div class="st" style="--n:${s.w.length};--r:${s.w.some((x) => x[1]) ? s.w.length + 1 : 1}">${s.w.map(([k, t, m], j) => `${t ? `<div class="b" style="--d:${j + 1};--j:${j + 1};--c:${C[k].shirt}"><b class="bn">${C[k].n}</b>${t[L]}</div>` : ""}<div class="av" style="--j:${j + 1}">${ch(k, m)}<span class="nm">${C[k].n}</span></div>`).join("")}</div>` : ""}${s.l ? `<ul>${s.l.map((t) => `<li>${t[L]}</li>`).join("")}</ul>` : ""}${s.d ? `<div class="dm">${s.d.map(([c, t, x]) => `<div style="--c:${c}"><h2>${t[L]}</h2><p>${x[L]}</p></div>`).join("")}</div>` : ""}${s.lit ? lit(s.lit) : ""}${s.cta ? `<button class="cta" data-chat>${s.cta[L]}</button>` : ""}${s.n ? `<small>${s.n[L]}</small>` : ""}</div></div></section>`,
   ).join("");
   $("dots").innerHTML = S.map(
     (_, k) =>
@@ -403,3 +415,74 @@ $("sb").onclick = () => {
   setTimeout(() => sp.remove(), 700);
 };
 //   $("sb").focus();
+
+/* ===== CHAT ===== */
+const CHAT_URL = "https://outsource-facelift-ship.ngrok-free.dev/webhook/kasih-chat";
+const sid = "s-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const GREET = [
+  "Halo! Aku Sahabat Kasih 🌱 Mau ngobrol tentang sampah plastik, kasih universal, atau aksi kecil yang bisa kamu mulai?",
+  "Hi! I’m Sahabat Kasih 🌱 Want to chat about plastic waste, universal love, or small actions you can start?",
+];
+const UI = [
+  { ph: "Tulis pesan…", err: "Maaf, aku sedang tidak bisa menjawab. Coba lagi sebentar ya." },
+  { ph: "Type a message…", err: "Sorry, I can’t answer right now. Please try again in a moment." },
+];
+let started = 0, busy = 0;
+const lockUI = (v) =>
+  document.querySelectorAll("header,main,nav").forEach((e) => (e.inert = v));
+function addMsg(t, c) {
+  const d = document.createElement("div");
+  d.className = "m " + c;
+  if (t) d.textContent = t;
+  $("msgs").append(d);
+  $("msgs").scrollTop = $("msgs").scrollHeight;
+  return d;
+}
+function openChat() {
+  $("chat").hidden = false;
+  lockUI(true);
+  $("ci").placeholder = UI[L].ph;
+  if (!started) { started = 1; addMsg(GREET[L], "bot"); }
+  $("ci").focus();
+}
+function closeChat() {
+  $("chat").hidden = true;
+  lockUI(false);
+}
+$("tr").onclick = (e) => { if (e.target.closest("[data-chat]")) openChat(); };
+$("cx").onclick = closeChat;
+addEventListener("keydown", (e) => { if (e.key == "Escape" && !$("chat").hidden) closeChat(); });
+addEventListener("keydown", (e) => {
+  if (!$("chat").hidden && e.key.startsWith("Arrow")) e.stopImmediatePropagation();
+}, true);
+addEventListener("touchend", (e) => {
+  if (!$("chat").hidden) e.stopImmediatePropagation();
+}, true);
+$("cf").onsubmit = async (e) => {
+  e.preventDefault();
+  const text = $("ci").value.trim();
+  if (!text || busy) return;
+  busy = 1;
+  $("ci").value = "";
+  addMsg(text, "me");
+  const w = addMsg("", "bot");
+  w.innerHTML = '<span class="dotz"><i></i><i></i><i></i></span>';
+  const ac = new AbortController(), tm = setTimeout(() => ac.abort(), 45000);
+  try {
+    const r = await fetch(CHAT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId: sid, message: text, lang: L ? "en" : "id" }),
+      signal: ac.signal,
+    });
+    if (!r.ok) throw 0;
+    const d = await r.json();
+    w.textContent = d.reply || UI[L].err;
+  } catch {
+    w.textContent = UI[L].err;
+    w.classList.add("err");
+  }
+  clearTimeout(tm);
+  busy = 0;
+  $("msgs").scrollTop = $("msgs").scrollHeight;
+};
