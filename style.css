@@ -29,6 +29,8 @@ html {
 }
 * {
   box-sizing: border-box;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 html,
 body {
@@ -687,7 +689,9 @@ main {
   }
 }
 #cf {
-  display: flex;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
   gap: 8px;
   padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
   background: var(--card);
@@ -695,7 +699,7 @@ main {
 }
 #cf input {
   flex: 1;
-  min-width: 0;
+  max-width: 800px;
   font: inherit;
   font-size: 16px;
   color: var(--ink);
