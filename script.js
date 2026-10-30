@@ -427,6 +427,7 @@ const UI = [
   { ph: "Tulis pesan…", err: "Maaf, aku sedang tidak bisa menjawab. Coba lagi sebentar ya." },
   { ph: "Type a message…", err: "Sorry, I can’t answer right now. Please try again in a moment." },
 ];
+let sent = 0;
 let started = 0, busy = 0;
 const lockUI = (v) =>
   document.querySelectorAll("header,main,nav").forEach((e) => (e.inert = v));
@@ -462,6 +463,10 @@ $("cf").onsubmit = async (e) => {
   e.preventDefault();
   const text = $("ci").value.trim();
   if (!text || busy) return;
+    if (++sent > 15) {
+    addMsg(L ? "Chat limit reached for this visit. Thank you for chatting! 🌱" : "Batas chat untuk kunjungan ini sudah tercapai. Terima kasih sudah ngobrol! 🌱", "bot");
+    return;
+  }
   busy = 1;
   $("ci").value = "";
   addMsg(text, "me");
