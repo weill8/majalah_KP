@@ -180,6 +180,56 @@ h1 {
   width: 100%;
   max-width: 110px;
 }
+
+.eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 4s infinite;
+}
+@keyframes blink {
+  0%,
+  94%,
+  100% {
+    transform: scaleY(1);
+  }
+  97% {
+    transform: scaleY(0.1);
+  }
+}
+
+.on h1,.on .in>p,.on li,.on .dm>div{animation:rise .6s calc(var(--k,0)*.12s) both cubic-bezier(.2,.9,.3,1.2)}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+
+.cloud{animation:drift 30s linear infinite alternate}
+.cloud:nth-of-type(2){animation-duration:45s}
+@keyframes drift{to{transform:translateX(60px)}}
+.sun{transform-box:fill-box;transform-origin:center;animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+
+.ch {
+  transform-origin: 50% 100%;
+}
+.on .av .ch {
+  animation: bob 2.6s calc(var(--j) * 0.35s) ease-in-out infinite;
+}
+@keyframes bob {
+  50% {
+    transform: translateY(-4px) scale(1.02, 0.98);
+  }
+}
+
+.av {
+  cursor: pointer;
+}
+.av:active .ch {
+  animation: hop 0.45s;
+}
+@keyframes hop {
+  40% {
+    transform: translateY(-16px) scale(0.95, 1.08);
+  }
+}
+
 .nm {
   font:
     700 0.85rem Fredoka,
@@ -689,7 +739,7 @@ main {
   }
 }
 #cf {
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 8px;
@@ -711,6 +761,31 @@ main {
 #cf button {
   min-width: 48px;
 }
+#ai-info {
+  background-color: white;
+  color: var(--ink);
+  text-align: center;
+  font-size: 10px;
+  padding: 0 5px 14px;
+  margin: 0;
+  height: auto;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+.shake {
+  animation: shake 0.3s ease-in-out;
+  border-color: #ff7a6b !important;
+}
+
+#ci:disabled, #cs:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dotz i {
     animation: none;

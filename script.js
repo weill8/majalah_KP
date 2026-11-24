@@ -1,21 +1,21 @@
 const C = {
-  raka: { n: "Albert", skin: "#F2C29B", hair: "#2B2118", shirt: "#3E8EDE" },
+  raka: { n: "Liam", skin: "#F2C29B", hair: "#2B2118", shirt: "#3E8EDE" },
   dimas: {
-    n: "Ruben",
+    n: "Zayn",
     skin: "#E8B088",
     hair: "#1E1E1E",
     shirt: "#FF7A6B",
   },
-  bima: { n: "Weillsun", skin: "#D9A073", hair: "#3A2A1A", shirt: "#3FAE6E" },
+  bima: { n: "Elian", skin: "#D9A073", hair: "#3A2A1A", shirt: "#3FAE6E" },
   sari: {
-    n: "Evelyn",
+    n: "Alana",
     skin: "#F2C29B",
     hair: "#2A1B14",
     shirt: "#B58CE0",
     f: 1,
   },
   joko: {
-    n: "Pak Joko",
+    n: "Joko",
     skin: "#C98F63",
     hair: "#666",
     shirt: "#F4A000",
@@ -23,7 +23,7 @@ const C = {
     st: 1,
   },
   mhs: {
-    n: "Mahasiswa",
+    n: ["Mahasiswa", "College Student"],
     skin: "#F2C29B",
     hair: "#6B3FA0",
     shirt: "#9AA5B1",
@@ -37,7 +37,7 @@ const ch = (k, m) => {
       : m == "sad"
         ? '<path d="M43 71q7-6 14 0" fill="none" stroke="#7a2b2b" stroke-width="2.5" stroke-linecap="round"/>'
         : '<path d="M42 65q8 8 16 0" fill="none" stroke="#7a2b2b" stroke-width="2.5" stroke-linecap="round"/>';
-  return `<svg class="ch" viewBox="0 0 100 130" role="img" aria-label="${c.n}">${c.f ? `<rect x="17" y="44" width="15" height="44" rx="7" fill="${c.hair}"/><rect x="68" y="44" width="15" height="44" rx="7" fill="${c.hair}"/>` : ""}<ellipse cx="50" cy="126" rx="28" ry="4" fill="#0002"/><path d="M20 128v-22a30 24 0 0 1 60 0v22z" fill="${c.shirt}"/><circle cx="50" cy="54" r="31" fill="${c.skin}"/>${c.hat ? '<path d="M18 48a32 28 0 0 1 64 0z" fill="#F4A000"/><rect x="13" y="46" width="74" height="7" rx="3.5" fill="#F4A000"/>' : `<path d="M19 54a31 31 0 0 1 62 0c-10-13-22-16-31-16S29 41 19 54z" fill="${c.hair}"/>`}<circle cx="39" cy="57" r="5" fill="#222"/><circle cx="61" cy="57" r="5" fill="#222"/><circle cx="40.5" cy="55.5" r="1.8" fill="#fff"/><circle cx="62.5" cy="55.5" r="1.8" fill="#fff"/><ellipse cx="30" cy="68" rx="5" ry="3" fill="#FF7A6B" opacity=".5"/><ellipse cx="70" cy="68" rx="5" ry="3" fill="#FF7A6B" opacity=".5"/>${c.st ? '<path d="M39 63q11-6 22 0q-11 5-22 0z" fill="#555"/>' : ""}${mouth}</svg>`;
+  return `<svg class="ch" viewBox="0 0 100 130" role="img" aria-label="${c.n}">${c.f ? `<rect x="17" y="44" width="15" height="44" rx="7" fill="${c.hair}"/><rect x="68" y="44" width="15" height="44" rx="7" fill="${c.hair}"/>` : ""}<ellipse cx="50" cy="126" rx="28" ry="4" fill="#0002"/><path d="M20 128v-22a30 24 0 0 1 60 0v22z" fill="${c.shirt}"/><circle cx="50" cy="54" r="31" fill="${c.skin}"/>${c.hat ? '<path d="M18 48a32 28 0 0 1 64 0z" fill="#F4A000"/><rect x="13" y="46" width="74" height="7" rx="3.5" fill="#F4A000"/>' : `<path d="M19 54a31 31 0 0 1 62 0c-10-13-22-16-31-16S29 41 19 54z" fill="${c.hair}"/>`}<circle cx="39" cy="57" r="5" class="eye" fill="#222"/><circle class="eye" cx="61" cy="57" r="5" fill="#222"/><circle cx="40.5" cy="55.5" r="1.8" fill="#fff"/><circle cx="62.5" cy="55.5" r="1.8" fill="#fff"/><ellipse cx="30" cy="68" rx="5" ry="3" fill="#FF7A6B" opacity=".5"/><ellipse cx="70" cy="68" rx="5" ry="3" fill="#FF7A6B" opacity=".5"/>${c.st ? '<path d="M39 63q11-6 22 0q-11 5-22 0z" fill="#555"/>' : ""}${mouth}</svg>`;
 };
 const BOT =
   '<svg viewBox="0 0 30 60"><rect x="10" y="0" width="10" height="8" rx="2" fill="#FF7A6B"/><path d="M8 10h14l3 10v34a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V20z" fill="#9fe3ff" stroke="#3a9bb0" stroke-width="2"/></svg>';
@@ -65,29 +65,29 @@ const S = [
       [
         "raka",
         [
-          "Aku Albert. Aku suka bertanya.",
-          "I’m Albert. I love asking questions.",
+          "Aku Liam. Aku suka bertanya.",
+          "I’m Liam. I love asking questions.",
         ],
       ],
       [
         "dimas",
         [
-          "Aku Ruben. Siap jadi “pelaku” eksperimen!",
-          "I’m Ruben. Ready to be the “culprit”!",
+          "Aku Zayn. Siap jadi “pelaku” eksperimen!",
+          "I’m Zayn. Ready to be the “culprit”!",
         ],
       ],
       [
         "bima",
         [
-          "Aku Weillsun. Tukang catat dan foto.",
-          "I’m Weillsun. I take notes and photos.",
+          "Aku Elian. Tukang catat dan foto.",
+          "I’m Elian. I take notes and photos.",
         ],
       ],
       [
         "sari",
         [
-          "Aku Evelyn. Aku peduli pada alam.",
-          "I’m Evelyn. I care about nature.",
+          "Aku Alana. Aku peduli pada alam.",
+          "I’m Alana. I care about nature.",
         ],
       ],
     ],
@@ -127,13 +127,13 @@ const S = [
   {
     h: ["Rencana eksperimen", "The plan"],
     p: [
-      "Ruben sengaja menjatuhkan sebotol plastik di jalur kampus. Tiga temannya mengamati dari jauh selama satu jam.",
-      "Ruben will drop a plastic bottle on a busy campus path. His three friends will watch from afar for one hour.",
+      "Zayn sengaja menjatuhkan sebotol plastik di jalur kampus. Tiga temannya mengamati dari jauh selama satu jam.",
+      "Zayn will drop a plastic bottle on a busy campus path. His three friends will watch from afar for one hour.",
     ],
     l: [
-      ["Ruben menjatuhkan botol", "Ruben drops the bottle"],
-      ["Weillsun mencatat dan memotret", "Weillsun records and takes photos"],
-      ["Albert dan Evelyn mengamati", "Albert and Evelyn observe"],
+      ["Zayn menjatuhkan botol", "Zayn drops the bottle"],
+      ["Elian mencatat dan memotret", "Elian records and takes photos"],
+      ["Liam dan Alana mengamati", "Liam and Alana observe"],
     ],
   },
   {
@@ -253,17 +253,17 @@ const S = [
     w: [["raka"], ["dimas"], ["bima"], ["sari"], ["joko"]],
   },
 
-          {
-          h: ["Ngobrol Yuk", "Let’s Chat"],
-          p: [
-            "Punya pertanyaan atau cerita tentang sampah plastik? Bagikan bersama asisten AI kami.",
-            "Have a question or a story about plastic waste? Share it with our AI assistant.",
-          ],
-          cta: [
-            "Mari mengobrol tentang kasih universal",
-            "Let’s talk about universal love",
-          ],
-        },
+  {
+    h: ["Ngobrol Yuk", "Let’s Chat"],
+    p: [
+      "Punya pertanyaan atau cerita tentang sampah plastik? Bagikan bersama asisten AI kami.",
+      "Have a question or a story about plastic waste? Share it with our AI assistant.",
+    ],
+    cta: [
+      "Mari mengobrol tentang kasih universal",
+      "Let’s talk about universal love",
+    ],
+  },
 ];
 const TH = {
   d: ["#8fd8f5", "#e9fbff", "#FFE27A", "#a6e0a2", "#86d68f", "#6fc57f"],
@@ -323,8 +323,22 @@ const scene = (n) => {
               )
               .join("")
           : "");
-  return `<svg class="bgs" viewBox="0 0 800 500" preserveAspectRatio="${P ? "xMidYMax meet" : "xMidYMax slice"}" aria-hidden="true"><defs><linearGradient id="${g}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="330"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></linearGradient></defs><rect x="-1000" y="-1500" width="2800" height="2000" fill="url(#${g})"/><circle cx="${sx}" cy="${sy}" r="72" fill="${c[2]}" opacity=".4"/><circle cx="${sx}" cy="${sy}" r="46" fill="${c[2]}"/><g transform="translate(${P ? "-20 -50" : "-100 130"})" fill="${t == "s" ? "#ffd0b8" : "#fff"}" opacity=".85"><ellipse cx="300" cy="80" rx="60" ry="20"/><ellipse cx="340" cy="68" rx="40" ry="18"/><ellipse cx="560" cy="140" rx="70" ry="20"/><ellipse cx="600" cy="128" rx="40" ry="16"/></g><path d="M0 330Q150 250 300 320T600 300T800 320V500H0z" fill="${c[3]}"/><path d="M0 380Q200 320 420 370T800 350V500H0z" fill="${c[4]}"/>${bld}${low}</svg>`;
+  return `<svg class="bgs" viewBox="0 0 800 500" preserveAspectRatio="${P ? "xMidYMax meet" : "xMidYMax slice"}" aria-hidden="true"><defs><linearGradient id="${g}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="330"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></linearGradient></defs><rect x="-1000" y="-1500" width="2800" height="2000" fill="url(#${g})"/><circle class="sun" cx="${sx}" cy="${sy}" r="72" fill="${c[2]}" opacity=".4"/><circle cx="${sx}" cy="${sy}" r="46" fill="${c[2]}"/><g class="cloud" transform="translate(${P ? "-20 -50" : "-100 130"})" fill="${t == "s" ? "#ffd0b8" : "#fff"}" opacity=".85"><ellipse cx="300" cy="80" rx="60" ry="20"/><ellipse cx="340" cy="68" rx="40" ry="18"/><ellipse cx="560" cy="140" rx="70" ry="20"/><ellipse cx="600" cy="128" rx="40" ry="16"/></g><path d="M0 330Q150 250 300 320T600 300T800 320V500H0z" fill="${c[3]}"/><path d="M0 380Q200 320 420 370T800 350V500H0z" fill="${c[4]}"/>${bld}${low}</svg>`;
 };
+
+const UI = [
+  {
+    ph: "Tulis pesan…",
+    err: "Maaf, aku sedang tidak bisa menjawab. Coba lagi sebentar ya.",
+    info: "Sahabat Kasih dapat membuat kesalahan & memiliki kapasitas chat terbatas.",
+  },
+  {
+    ph: "Type a message…",
+    err: "Sorry, I can’t answer right now. Please try again in a moment.",
+    info: "Sahabat Kasih may make mistakes & has limited chat capacity.",
+  },
+];
+
 const $ = (id) => document.getElementById(id);
 let L = 0,
   i = 0;
@@ -333,9 +347,10 @@ const lit = (n) =>
 function render() {
   document.documentElement.lang = L ? "en" : "id";
   $("lg").textContent = L ? "ID" : "EN";
+  $("ai-info").textContent = UI[L].info;
   $("tr").innerHTML = S.map(
     (s, n) =>
-      `<section class="s ${[0, 1, 10].includes(n) ? "up " : ""}${[2, 3, 5, 6, 7].includes(n) ? "bl" : ""}">${scene(n)}<div class="sc"><div class="in"><h1>${s.h[L]}</h1>${s.p ? `<p>${s.p[L]}</p>` : ""}${s.w ? `<div class="st" style="--n:${s.w.length};--r:${s.w.some((x) => x[1]) ? s.w.length + 1 : 1}">${s.w.map(([k, t, m], j) => `${t ? `<div class="b" style="--d:${j + 1};--j:${j + 1};--c:${C[k].shirt}"><b class="bn">${C[k].n}</b>${t[L]}</div>` : ""}<div class="av" style="--j:${j + 1}">${ch(k, m)}<span class="nm">${C[k].n}</span></div>`).join("")}</div>` : ""}${s.l ? `<ul>${s.l.map((t) => `<li>${t[L]}</li>`).join("")}</ul>` : ""}${s.d ? `<div class="dm">${s.d.map(([c, t, x]) => `<div style="--c:${c}"><h2>${t[L]}</h2><p>${x[L]}</p></div>`).join("")}</div>` : ""}${s.lit ? lit(s.lit) : ""}${s.cta ? `<button class="cta" data-chat>${s.cta[L]}</button>` : ""}${s.n ? `<small>${s.n[L]}</small>` : ""}</div></div></section>`,
+      `<section class="s ${[0, 1, 10].includes(n) ? "up " : ""}${[2, 3, 5, 6, 7].includes(n) ? "bl" : ""}">${scene(n)}<div class="sc"><div class="in"><h1>${s.h[L]}</h1>${s.p ? `<p>${s.p[L]}</p>` : ""}${s.w ? `<div class="st" style="--n:${s.w.length};--r:${s.w.some((x) => x[1]) ? s.w.length + 1 : 1}">${s.w.map(([k, t, m], j) => `${t ? `<div class="b" style="--d:${j + 1};--j:${j + 1};--c:${C[k].shirt}"><b class="bn">${Array.isArray(C[k].n) ? C[k].n[L] : C[k].n}</b>${t[L]}</div>` : ""}<div class="av" style="--j:${j + 1}">${ch(k, m)}<span class="nm">${Array.isArray(C[k].n) ? C[k].n[L] : C[k].n}</span></div>`).join("")}</div>` : ""}${s.l ? `<ul>${s.l.map((t) => `<li>${t[L]}</li>`).join("")}</ul>` : ""}${s.d ? `<div class="dm">${s.d.map(([c, t, x]) => `<div style="--c:${c}"><h2>${t[L]}</h2><p>${x[L]}</p></div>`).join("")}</div>` : ""}${s.lit ? lit(s.lit) : ""}${s.cta ? `<button class="cta" data-chat>${s.cta[L]}</button>` : ""}${s.n ? `<small>${s.n[L]}</small>` : ""}</div></div></section>`,
   ).join("");
   $("dots").innerHTML = S.map(
     (_, k) =>
@@ -417,18 +432,17 @@ $("sb").onclick = () => {
 //   $("sb").focus();
 
 /* ===== CHAT ===== */
-const CHAT_URL = "https://outsource-facelift-ship.ngrok-free.dev/webhook/kasih-chat";
-const sid = "s-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const CHAT_URL =
+  "https://outsource-facelift-ship.ngrok-free.dev/webhook/kasih-chat";
+const sid =
+  "s-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 const GREET = [
   "Halo! Aku Sahabat Kasih 🌱 Mau ngobrol tentang sampah plastik, kasih universal, atau aksi kecil yang bisa kamu mulai?",
   "Hi! I’m Sahabat Kasih 🌱 Want to chat about plastic waste, universal love, or small actions you can start?",
 ];
-const UI = [
-  { ph: "Tulis pesan…", err: "Maaf, aku sedang tidak bisa menjawab. Coba lagi sebentar ya." },
-  { ph: "Type a message…", err: "Sorry, I can’t answer right now. Please try again in a moment." },
-];
-let sent = 0;
-let started = 0, busy = 0;
+
+let started = 0,
+  busy = 0;
 const lockUI = (v) =>
   document.querySelectorAll("header,main,nav").forEach((e) => (e.inert = v));
 function addMsg(t, c) {
@@ -443,41 +457,78 @@ function openChat() {
   $("chat").hidden = false;
   lockUI(true);
   $("ci").placeholder = UI[L].ph;
-  if (!started) { started = 1; addMsg(GREET[L], "bot"); }
+  if (!started) {
+    started = 1;
+    addMsg(GREET[L], "bot");
+  }
   $("ci").focus();
 }
 function closeChat() {
   $("chat").hidden = true;
   lockUI(false);
 }
-$("tr").onclick = (e) => { if (e.target.closest("[data-chat]")) openChat(); };
+$("tr").onclick = (e) => {
+  if (e.target.closest("[data-chat]")) openChat();
+};
 $("cx").onclick = closeChat;
-addEventListener("keydown", (e) => { if (e.key == "Escape" && !$("chat").hidden) closeChat(); });
 addEventListener("keydown", (e) => {
-  if (!$("chat").hidden && e.key.startsWith("Arrow")) e.stopImmediatePropagation();
-}, true);
-addEventListener("touchend", (e) => {
-  if (!$("chat").hidden) e.stopImmediatePropagation();
-}, true);
+  if (e.key == "Escape" && !$("chat").hidden) closeChat();
+});
+addEventListener(
+  "keydown",
+  (e) => {
+    if (!$("chat").hidden && e.key.startsWith("Arrow"))
+      e.stopImmediatePropagation();
+  },
+  true,
+);
+addEventListener(
+  "touchend",
+  (e) => {
+    if (!$("chat").hidden) e.stopImmediatePropagation();
+  },
+  true,
+);
 $("cf").onsubmit = async (e) => {
   e.preventDefault();
+
+  if (busy) return;
+
   const text = $("ci").value.trim();
-  if (!text || busy) return;
-    if (++sent > 15) {
-    addMsg(L ? "Chat limit reached for this visit. Thank you for chatting! 🌱" : "Batas chat untuk kunjungan ini sudah tercapai. Terima kasih sudah ngobrol! 🌱", "bot");
-    return;
+
+  if (!text) {
+    const inputField = $("ci");
+    inputField.classList.add("shake");
+    inputField.focus();
+    
+    // hapus kelas animasi setelah selesai agar bisa dipicu lagi nanti
+    setTimeout(() => inputField.classList.remove("shake"), 300);
+    return; // hentikan eksekusi agar pesan kosong tidak terkirim
   }
+
   busy = 1;
   $("ci").value = "";
+
+  // disabled input dan button
+  $("ci").disabled = true;
+  $("cs").disabled = true;
+
   addMsg(text, "me");
+
   const w = addMsg("", "bot");
   w.innerHTML = '<span class="dotz"><i></i><i></i><i></i></span>';
-  const ac = new AbortController(), tm = setTimeout(() => ac.abort(), 45000);
+
+  const ac = new AbortController(),
+    tm = setTimeout(() => ac.abort(), 45000);
   try {
     const r = await fetch(CHAT_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId: sid, message: text, lang: L ? "en" : "id" }),
+      body: JSON.stringify({
+        sessionId: sid,
+        message: text,
+        lang: L ? "en" : "id",
+      }),
       signal: ac.signal,
     });
     if (!r.ok) throw 0;
@@ -489,5 +540,11 @@ $("cf").onsubmit = async (e) => {
   }
   clearTimeout(tm);
   busy = 0;
+
+  // enable input dan button
+  $("ci").disabled = false;
+  $("cs").disabled = false;
+  $("ci").focus();
+  
   $("msgs").scrollTop = $("msgs").scrollHeight;
 };
