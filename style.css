@@ -197,14 +197,41 @@ h1 {
   }
 }
 
-.on h1,.on .in>p,.on li,.on .dm>div{animation:rise .6s calc(var(--k,0)*.12s) both cubic-bezier(.2,.9,.3,1.2)}
-@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+.on h1,
+.on .in > p,
+.on li,
+.on .dm > div {
+  animation: rise 0.6s calc(var(--k, 0) * 0.12s) both
+    cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
 
-.cloud{animation:drift 30s linear infinite alternate}
-.cloud:nth-of-type(2){animation-duration:45s}
-@keyframes drift{to{transform:translateX(60px)}}
-.sun{transform-box:fill-box;transform-origin:center;animation:pulse 4s ease-in-out infinite}
-@keyframes pulse{50%{transform:scale(1.08)}}
+.cloud {
+  animation: drift 30s linear infinite alternate;
+}
+.cloud:nth-of-type(2) {
+  animation-duration: 45s;
+}
+@keyframes drift {
+  to {
+    transform: translateX(60px);
+  }
+}
+.sun {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse {
+  50% {
+    transform: scale(1.08);
+  }
+}
 
 .ch {
   transform-origin: 50% 100%;
@@ -766,24 +793,457 @@ main {
   color: var(--ink);
   text-align: center;
   font-size: 10px;
-  padding: 0 5px 14px;
   margin: 0;
+  padding-bottom: 2px;
   height: auto;
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-6px); }
-  40%, 80% { transform: translateX(6px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
 }
 .shake {
   animation: shake 0.3s ease-in-out;
   border-color: #ff7a6b !important;
 }
 
-#ci:disabled, #cs:disabled {
+#ci:disabled,
+#cs:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* ===== EXTRAS: header tools, progress, menu, checklist, reflection, game, chat helpers ===== */
+.hx {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hx button {
+  padding: 4px 10px;
+  min-width: 40px;
+  min-height: 36px;
+}
+#cm {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: #0f3b4577;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 70px 16px 16px;
+}
+#cm[hidden] {
+  display: none;
+}
+#cm div {
+  background: var(--card);
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  box-shadow: 0 5px 0 var(--ink);
+  padding: 12px;
+  width: min(420px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  display: grid;
+  gap: 6px;
+}
+#cm button {
+  text-align: left;
+  border-radius: 12px;
+  border-width: 2px;
+}
+#cm button[aria-current] {
+  background: var(--acc);
+  color: #fff;
+}
+#tt {
+  position: fixed;
+  left: 50%;
+  bottom: 90px;
+  transform: translate(-50%, 20px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 60;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  transition: 0.3s;
+}
+#tt.on {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* checklist */
+li[role="checkbox"] {
+  cursor: pointer;
+  user-select: none;
+}
+li[role="checkbox"]:focus-visible {
+  outline: 3px solid var(--acc);
+}
+li[role="checkbox"]:not(.done)::before {
+  background: transparent;
+  color: transparent;
+  border: 2px solid var(--g);
+  line-height: 18px;
+}
+li[role="checkbox"].done {
+  opacity: 0.85;
+  text-decoration: line-through;
+}
+.ap {
+  max-width: 520px;
+  margin: 0 auto 8px;
+  text-align: left;
+}
+.apb {
+  height: 12px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--card);
+  overflow: hidden;
+}
+.apb i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--g);
+  transition: width 0.4s;
+}
+.ap span {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* reflection */
+.rf {
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto 12px;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 10px 14px;
+  text-align: left;
+}
+.rf label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.rf textarea {
+  width: 100%;
+  min-height: 64px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--bg);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 8px 12px;
+  resize: vertical;
+}
+.rf button {
+  margin-top: 8px;
+  background: var(--acc);
+  color: #fff;
+}
+.rf small {
+  display: inline;
+  margin-left: 8px;
+}
+
+/* game */
+.gm {
+  max-width: 560px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  padding: 12px;
+}
+.gm .sc2 {
+  font:
+    700 1rem Fredoka,
+    sans-serif;
+  margin-bottom: 6px;
+}
+.gi,
+.gb {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+.gi button {
+  font-size: 1.9rem;
+  min-width: 64px;
+  min-height: 64px;
+  border-radius: 16px;
+  line-height: 1;
+  padding: 6px 10px;
+}
+.gi button small {
+  font-size: 0.65rem;
+  margin: 0;
+}
+.gi button[aria-pressed="true"] {
+  background: var(--sun);
+  transform: scale(1.08);
+}
+.gb button {
+  flex: 1;
+  min-width: 90px;
+  min-height: 52px;
+  border-radius: 14px;
+  color: #0f3b45;
+}
+.gb [data-b="p"] {
+  background: #ffe27a;
+}
+.gb [data-b="k"] {
+  background: #9fd6ff;
+}
+.gb [data-b="o"] {
+  background: #a6e0a2;
+}
+.gm .gmsg {
+  min-height: 1.5em;
+  font-weight: 700;
+}
+.gm .gr button {
+  background: var(--acc);
+  color: #fff;
+}
+
+/* chat helpers */
+#qs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 8px 14px;
+  border-top: 2px solid var(--ink);
+}
+#qs button {
+  flex: 0 0 auto;
+  font-size: 0.82rem;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+#cc {
+  margin-left: auto;
+  padding: 4px 10px;
+}
+.m .cp {
+  display: block;
+  margin-top: 6px;
+  margin-left: auto;
+  padding: 0 8px;
+  font-size: 0.72rem;
+  border-width: 1px;
+  opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+  .hx button {
+    min-width: 36px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .apb i,
+  #tt {
+    transition: none;
+  }
+}
+
+/* ===== SPLASH UPGRADE — tempel di PALING BAWAH style.css ===== */
+#sp > .spd {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+/* matahari */
+.spsun {
+  position: absolute;
+  top: 7%;
+  left: 9%;
+  width: clamp(54px, 14vw, 90px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #ffe27a;
+  box-shadow:
+    0 0 0 12px #ffe27a55,
+    0 0 44px #ffe27acc;
+  animation: spSun 4s ease-in-out infinite;
+}
+@keyframes spSun {
+  50% {
+    transform: scale(1.08);
+    box-shadow:
+      0 0 0 18px #ffe27a44,
+      0 0 60px #ffe27a;
+  }
+}
+/* awan */
+.spcl {
+  position: absolute;
+  left: 0;
+  width: clamp(80px, 22vw, 140px);
+  fill: #fff;
+  opacity: 0.85;
+  animation: spDr 45s linear infinite;
+}
+.spcl:nth-of-type(1) {
+  top: 14%;
+}
+.spcl:nth-of-type(2) {
+  top: 26%;
+  width: clamp(60px, 16vw, 100px);
+  animation-duration: 65s;
+  animation-delay: -30s;
+}
+@keyframes spDr {
+  from {
+    transform: translateX(-30vw);
+  }
+  to {
+    transform: translateX(130vw);
+  }
+}
+/* daun melayang naik */
+.spd i {
+  position: absolute;
+  top: -8%;
+  left: var(--x);
+  font-size: var(--s);
+  font-style: normal;
+  opacity: 0;
+  animation: spLf var(--t) var(--dl) linear infinite;
+}
+@keyframes spLf {
+  10% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(24px, 55vh) rotate(180deg);
+  }
+  100% {
+    transform: translate(-12px, 110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+/* ukuran botol */
+#sp > svg {
+  width: auto;
+  height: min(30dvh, 260px);
+}
+/* tombol berdenyut halus + hover */
+#sp button {
+  animation:
+    spUp 0.7s 1.9s both,
+    spBtn 2s 2.8s ease-in-out infinite;
+  transition: filter 0.2s;
+}
+#sp button:hover {
+  filter: brightness(1.07);
+}
+@keyframes spBtn {
+  50% {
+    transform: scale(1.05);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .spd {
+    filter: brightness(0.6);
+  }
+}
+:root[data-theme="dark"] .spd {
+  filter: brightness(0.6);
+}
+
+/* ===== ELEMEN TAMBAHAN ===== */
+.sprb {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  width: clamp(110px, 30vw, 200px);
+  opacity: 0.55;
+  animation: spUp 1.2s 1.2s both;
+}
+
+.sptr {
+  position: absolute;
+  bottom: 20%;
+  width: clamp(64px, 17vw, 120px);
+  animation: spUp 0.8s 1.5s both;
+}
+.sptr.tl {
+  left: -2%;
+}
+.sptr.tr2 {
+  right: -2%;
+  transform: scaleX(-1);
+}
+
+.spd em {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  font-style: normal;
+  font-size: clamp(16px, 4vw, 24px);
+  animation: spBf var(--t) ease-in-out infinite alternate;
+}
+@keyframes spBf {
+  0% {
+    transform: translate(0, 0) rotate(-12deg);
+  }
+  50% {
+    transform: translate(40px, -26px) rotate(10deg);
+  }
+  100% {
+    transform: translate(-24px, 18px) rotate(-6deg);
+  }
+}
+.spd u {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  font-size: var(--s);
+  text-decoration: none;
+  opacity: 0;
+  animation: spTw 2.4s var(--dl) ease-in-out infinite;
+}
+@keyframes spTw {
+  50% {
+    opacity: 1;
+    transform: scale(1.3) rotate(15deg);
+  }
+}
+@media (max-height: 600px) {
+  .sptr {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

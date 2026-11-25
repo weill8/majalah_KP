@@ -408,7 +408,8 @@ addEventListener(
   },
   { passive: true },
 );
-matchMedia("(orientation:portrait)").onchange = render;
+
+matchMedia("(orientation:portrait)").onchange = () => render();
 render();
 
 const sp = $("sp");
@@ -429,7 +430,56 @@ $("sb").onclick = () => {
   sp.classList.add("out");
   setTimeout(() => sp.remove(), 700);
 };
-//   $("sb").focus();
+
+(() => {
+  const sp = $("sp");
+  if (!sp) return;
+  const d = document.createElement("div");
+  d.className = "spd";
+  d.setAttribute("aria-hidden", "true");
+  const cloud =
+    '<svg class="spcl" viewBox="0 0 120 40"><ellipse cx="40" cy="26" rx="34" ry="12"/><ellipse cx="72" cy="18" rx="26" ry="14"/><ellipse cx="92" cy="28" rx="26" ry="10"/></svg>';
+  const rainbow =
+    '<svg class="sprb" viewBox="0 0 200 100">' +
+    [92, 84, 76, 68, 60]
+      .map(
+        (r, k) =>
+          `<path d="M${100 - r} 100a${r} ${r} 0 0 1 ${2 * r} 0" fill="none" stroke="${["#ff7a6b", "#ffc93c", "#a6e0a2", "#7fc6e6", "#b58ce0"][k]}" stroke-width="8"/>`,
+      )
+      .join("") +
+    "</svg>";
+  
+  const tree = (c) =>
+    `<svg class="sptr ${c}" viewBox="-50 -40 100 110"><rect x="-6" y="14" width="12" height="42" fill="#8a5a3c"/><circle cx="0" cy="6" r="30" fill="#3fae6e"/><circle cx="-20" cy="24" r="22" fill="#4fc27e"/><circle cx="20" cy="24" r="22" fill="#4fc27e"/></svg>`;
+  const leaves = Array.from(
+    { length: 10 },
+    (_, k) =>
+      `<i style="--x:${(k * 37 + 8) % 92}%;--s:${14 + ((k * 5) % 12)}px;--t:${7 + ((k * 3) % 6)}s;--dl:${(k * 1.3) % 5}s">🍃</i>`,
+  ).join("");
+
+  const butter = [
+    [14, 38, 6],
+    [72, 46, 8],
+    [44, 60, 7],
+  ]
+    .map(([x, y, t]) => `<em style="--x:${x}%;--y:${y}%;--t:${t}s">🦋</em>`)
+    .join("");
+  const spark = [
+    [30, 34, 18, 0],
+    [66, 30, 14, 0.6],
+    [22, 58, 12, 1.1],
+    [78, 62, 18, 1.6],
+    [50, 20, 14, 0.3],
+    [40, 72, 12, 1.9],
+  ]
+    .map(([x, y, s, dl]) => `<u style="--x:${x}%;--y:${y}%;--s:${s}px;--dl:${dl}s">✨</u>`)
+    .join("");
+  d.innerHTML =
+    `<div class="spsun"></div>${rainbow}${cloud}${cloud}` +
+    `${tree("tl")}${tree("tr2")}${leaves}${spark}${butter}`;
+  sp.prepend(d);
+})();
+
 
 /* ===== CHAT ===== */
 const CHAT_URL =
@@ -548,3 +598,232 @@ $("cf").onsubmit = async (e) => {
   
   $("msgs").scrollTop = $("msgs").scrollHeight;
 };
+
+(() => {
+  const q = (s, r = document) => r.querySelector(s);
+  const qa = (s, r = document) => [...r.querySelectorAll(s)];
+  const ld = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+  const sv = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+  const tx = (a, b) => (L ? b : a);
+
+  /* ---------- static UI ---------- */
+  const hd = q("header"), hx = document.createElement("div");
+  hx.className = "hx";
+  hx.innerHTML = '<button id="mn">☰</button><button id="mu"></button>';
+  hd.append(hx);
+  hx.append($("lg"));
+  const cm = document.createElement("div");
+  cm.id = "cm"; cm.hidden = true;
+  document.body.append(cm);
+  const tt = document.createElement("div");
+  tt.id = "tt"; tt.setAttribute("role", "status");
+  document.body.append(tt);
+  const toast = (m) => {
+    tt.textContent = m; tt.classList.add("on");
+    clearTimeout(toast.t); toast.t = setTimeout(() => tt.classList.remove("on"), 2200);
+  };
+
+  /* ---------- menu marker ---------- */
+  const mark = () =>
+    qa("#cm button").forEach((b, k) => (k == i ? b.setAttribute("aria-current", "true") : b.removeAttribute("aria-current")));
+
+  /* ---------- menu / read aloud / share ---------- */
+  const closeMenu = () => (cm.hidden = true);
+  $("mn").onclick = () => (cm.hidden = !cm.hidden);
+  cm.onclick = (e) => {
+    const b = e.target.closest("button[data-k]");
+    if (b) go(+b.dataset.k);
+    if (b || e.target === cm) closeMenu();
+  };
+  addEventListener("keydown", (e) => e.key == "Escape" && closeMenu());
+  /* ---------- music (on/off) ---------- */
+  const MUSIC_SRC = "sound_majalahKP.mp3";
+  let on = ld("eco-music", "on") !== "off", ac, master, timer, aud, pi = 0;
+  const NOTES = [261.63, 293.66, 329.63, 392, 440, 523.25];
+  const PAT = [0, 2, 4, 5, 4, 2, 3, 1, 0, 2, 4, 2, 5, 4, 2, 0];
+  const tone = (f, t, d, v) => {
+    const o = ac.createOscillator(), gn = ac.createGain();
+    o.type = "sine"; o.frequency.value = f;
+    gn.gain.setValueAtTime(0, t);
+    gn.gain.linearRampToValueAtTime(v, t + 0.05);
+    gn.gain.exponentialRampToValueAtTime(0.001, t + d);
+    o.connect(gn); gn.connect(master); o.start(t); o.stop(t + d);
+  };
+  const bar = () => {
+    const t = ac.currentTime + 0.05;
+    for (let k = 0; k < 4; k++) tone(NOTES[PAT[pi++ % PAT.length]], t + k * 0.6, 1.8, 0.07);
+    tone(NOTES[(pi >> 2) % 2 ? 0 : 3] / 2, t, 2.6, 0.05);
+  };
+  const play = () => {
+    try {
+      if (MUSIC_SRC) {
+        aud = aud || Object.assign(new Audio(MUSIC_SRC), { loop: true, volume: 0.4 });
+        aud.play().catch(() => {});
+      } else if (window.AudioContext || window.webkitAudioContext) {
+        if (!ac) { ac = new (window.AudioContext || window.webkitAudioContext)(); master = ac.createGain(); master.gain.value = 0.8; master.connect(ac.destination); }
+        ac.resume(); clearInterval(timer); bar(); timer = setInterval(bar, 2400);
+      }
+    } catch {}
+  };
+  const stop = () => {
+    clearInterval(timer);
+    if (aud) aud.pause();
+    if (ac) ac.suspend();
+  };
+  const muIcon = () => {
+    $("mu").textContent = on ? "🎵" : "🔇";
+    $("mu").setAttribute("aria-pressed", on);
+    $("mu").setAttribute("aria-label", on ? tx("Matikan musik", "Mute music") : tx("Nyalakan musik", "Play music"));
+  };
+  $("mu").onclick = () => {
+    on = !on; sv("eco-music", on ? "on" : "off");
+    on ? play() : stop();
+    muIcon();
+  };
+  // browser hanya mengizinkan suara setelah interaksi, jadi mulai saat tombol "Mulai" ditekan
+  const sb = $("sb");
+  if (sb) sb.addEventListener("click", () => on && play());
+  document.addEventListener("visibilitychange", () => (document.hidden ? stop() : on && sb && !$("sp") && play()));
+
+  /* ---------- checklist (slide 9) ---------- */
+  function checklist(sec) {
+    const lis = qa("li", sec);
+    if (!lis.length) return;
+    const done = ld("eco-actions", []);
+    const box = document.createElement("div");
+    box.className = "ap";
+    box.innerHTML = '<div class="apb"><i></i></div><span aria-live="polite"></span>';
+    q("ul", sec).after(box);
+    const upd = () => {
+      const n = lis.filter((_, k) => done[k]).length, p = Math.round((n / lis.length) * 100);
+      q("i", box).style.width = p + "%";
+      q("span", box).textContent = !n
+        ? tx("Pilih satu aksi kecil untuk memulai.", "Pick one small action to begin.")
+        : n < lis.length
+          ? `${n}/${lis.length} · ${p}% — ${tx("Langkah kecil yang indah!", "A lovely small step!")}`
+          : tx("Luar biasa! Kamu sudah menebar kasih untuk bumi 🌍", "Wonderful! You’ve spread love for the Earth 🌍");
+    };
+    lis.forEach((li, k) => {
+      li.tabIndex = 0;
+      li.setAttribute("role", "checkbox");
+      const set = () => { li.classList.toggle("done", !!done[k]); li.setAttribute("aria-checked", !!done[k]); };
+      const tg = () => { done[k] = !done[k]; sv("eco-actions", done); set(); upd(); };
+      set();
+      li.onclick = tg;
+      li.onkeydown = (e) => { if (e.key == " " || e.key == "Enter") { e.preventDefault(); tg(); } };
+    });
+    upd();
+  }
+
+  /* ---------- reflection (slide 10) ---------- */
+  function reflection(sec) {
+    const f = document.createElement("div");
+    f.className = "rf";
+    f.innerHTML = `<label for="rfi">${tx("Satu aksi kecil yang akan kulakukan untuk menjaga bumi adalah…", "One small action I will take to care for the Earth is…")}</label><textarea id="rfi" maxlength="200"></textarea><button type="button">${tx("Simpan", "Save")}</button><small></small>`;
+    const ta = q("textarea", f), sm = q("small", f);
+    ta.value = ld("eco-commit", "");
+    q("button", f).onclick = () => { sv("eco-commit", ta.value.trim()); sm.textContent = tx("Pertahankan! 💚", "Keep it up! 💚"); };
+    q(".in>p", sec).after(f);
+  }
+
+  /* ---------- sorting game (inserted before chat slide) ---------- */
+  const GI = [
+    ["🧴", ["Botol plastik", "Plastic bottle"], "p"], ["🥤", ["Gelas plastik", "Plastic cup"], "p"],
+    ["📰", ["Koran", "Newspaper"], "k"], ["📦", ["Kardus", "Cardboard"], "k"],
+    ["🍌", ["Kulit pisang", "Banana peel"], "o"], ["🍂", ["Daun kering", "Dry leaves"], "o"],
+  ];
+  const GB = { p: ["Plastik", "Plastic"], k: ["Kertas", "Paper"], o: ["Organik", "Organic"] };
+  let g = null;
+  const gnew = () => (g = { sel: -1, left: GI.map((_, k) => k), score: 0, miss: {}, msg: "" });
+  function gdraw(root) {
+    if (!g) gnew();
+    if (!g.left.length) {
+      const good = g.score >= 5;
+      root.innerHTML = `<div class="sc2">${tx("Skor", "Score")}: ${g.score}/${GI.length}</div><p>${good ? tx("Hebat! ", "Great job! ") : tx("Tidak apa-apa, belajar itu proses. ", "That’s okay, learning takes practice. ")}${tx("Memilah plastik, kertas, dan sampah organik memudahkan daur ulang dan pengolahan.", "Sorting plastic, paper, and organic waste makes recycling and composting easier.")}</p><div class="gr"><button data-r>${tx("Main lagi", "Play again")}</button></div>`;
+      return;
+    }
+    root.innerHTML = `<div class="sc2">${tx("Skor", "Score")}: ${g.score}/${GI.length}</div><div class="gi">${g.left.map((k) => `<button data-i="${k}" aria-pressed="${g.sel == k}" aria-label="${GI[k][1][L]}">${GI[k][0]}<small>${GI[k][1][L]}</small></button>`).join("")}</div><div class="gmsg" aria-live="polite">${g.msg || tx("Ketuk benda, lalu pilih tempat sampahnya.", "Tap an item, then choose its bin.")}</div><div class="gb">${Object.keys(GB).map((b) => `<button data-b="${b}">${GB[b][L]}</button>`).join("")}</div>`;
+  }
+  function game(sec) {
+    const root = document.createElement("div");
+    root.className = "gm";
+    q(".in>p", sec).after(root);
+    gdraw(root);
+    root.onclick = (e) => {
+      const it = e.target.closest("[data-i]"), bn = e.target.closest("[data-b]");
+      if (e.target.closest("[data-r]")) gnew();
+      else if (it) { g.sel = +it.dataset.i; g.msg = ""; }
+      else if (bn && g.sel >= 0) {
+        const k = g.sel;
+        if (GI[k][2] == bn.dataset.b) {
+          if (!g.miss[k]) g.score++;
+          g.msg = `✓ ${GI[k][1][L]} → ${GB[bn.dataset.b][L]}`;
+          g.left = g.left.filter((x) => x != k); g.sel = -1;
+        } else { g.miss[k] = 1; g.msg = tx("Hmm, coba tempat sampah lain ya.", "Hmm, try another bin."); }
+      } else if (bn) g.msg = tx("Pilih bendanya dulu ya.", "Pick an item first.");
+      gdraw(root);
+    };
+  }
+
+  /* ---------- chat helpers ---------- */
+  const QS = [
+    ["Bagaimana cara mengurangi sampah plastik?", "How can I reduce plastic waste?"],
+    ["Apa arti kasih universal?", "What does universal love mean?"],
+    ["Aksi kecil apa yang bisa kulakukan?", "What small actions can I take?"],
+    ["Bisa jelaskan eksperimen ini?", "Can you explain this experiment?"],
+    ["Bagaimana aku bisa membantu lingkungan?", "How can I help the environment?"],
+  ];
+  const qs = document.createElement("div");
+  qs.id = "qs";
+  $("cf").before(qs);
+  qs.onclick = (e) => {
+    const b = e.target.closest("button");
+    if (!b || busy) return;
+    $("ci").value = QS[+b.dataset.k][L];
+    $("cf").requestSubmit();
+  };
+  const cc = document.createElement("button");
+  cc.id = "cc";
+  cc.textContent = "🗑";
+  q(".cb-hd").append(cc);
+  cc.onclick = () => { $("msgs").innerHTML = ""; addMsg(GREET[L], "bot"); };
+  new MutationObserver(() => {
+    qa(".m.bot:not(.err)", $("msgs")).forEach((m) => {
+      if (m.querySelector(".cp,.dotz") || !m.textContent.trim()) return;
+      const t = m.textContent, b = document.createElement("button");
+      b.className = "cp"; b.textContent = "⧉ " + tx("Salin", "Copy");
+      b.onclick = async () => { try { await navigator.clipboard.writeText(t); toast(tx("Tersalin", "Copied")); } catch {} };
+      m.append(b);
+    });
+  }).observe($("msgs"), { childList: true, subtree: true });
+
+  /* ---------- hook into existing render/go ---------- */
+  function labels() {
+    $("mn").setAttribute("aria-label", tx("Daftar bab", "Chapters"));
+    muIcon();
+    cc.setAttribute("aria-label", tx("Hapus percakapan", "Clear conversation"));
+    cm.innerHTML = `<div role="dialog" aria-label="${tx("Daftar bab", "Chapters")}">${S.map((s, k) => `<button data-k="${k}">${k + 1}. ${s.h[L]}</button>`).join("")}</div>`;
+    qs.innerHTML = QS.map((s, k) => `<button data-k="${k}">${s[L]}</button>`).join("");
+  }
+  const _render = render, _go = go;
+  render = function () {
+    _render();
+    labels();
+    const secs = qa("#tr .s");
+    checklist(secs[9]);
+    reflection(secs[10]);
+    game(secs[11]);
+    mark();
+  };
+  go = function (n) {
+    _go(n);
+    mark();
+  };
+
+  if (S.length == 12)
+    S.splice(11, 0, {
+      h: ["Tantangan Pilah Sampah", "Plastic Sorting Challenge"],
+      p: ["Bantu memilah sampah ke tempat yang tepat.", "Help sort each item into the right bin."],
+    });
+  render();
+})();
