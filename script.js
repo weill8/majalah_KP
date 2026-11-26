@@ -410,7 +410,6 @@ addEventListener(
 );
 
 matchMedia("(orientation:portrait)").onchange = () => render();
-render();
 
 const sp = $("sp");
 const lock = (v) =>
@@ -609,7 +608,7 @@ $("cf").onsubmit = async (e) => {
   /* ---------- static UI ---------- */
   const hd = q("header"), hx = document.createElement("div");
   hx.className = "hx";
-  hx.innerHTML = '<button id="mn">☰</button><button id="mu"></button>';
+  hx.innerHTML = '<button id="mn">☰</button>';
   hd.append(hx);
   hx.append($("lg"));
   const cm = document.createElement("div");
@@ -627,7 +626,7 @@ $("cf").onsubmit = async (e) => {
   const mark = () =>
     qa("#cm button").forEach((b, k) => (k == i ? b.setAttribute("aria-current", "true") : b.removeAttribute("aria-current")));
 
-  /* ---------- menu / read aloud / share ---------- */
+  /* ---------- menu ---------- */
   const closeMenu = () => (cm.hidden = true);
   $("mn").onclick = () => (cm.hidden = !cm.hidden);
   cm.onclick = (e) => {
@@ -637,53 +636,53 @@ $("cf").onsubmit = async (e) => {
   };
   addEventListener("keydown", (e) => e.key == "Escape" && closeMenu());
   /* ---------- music (on/off) ---------- */
-  const MUSIC_SRC = "sound_majalahKP.mp3";
-  let on = ld("eco-music", "on") !== "off", ac, master, timer, aud, pi = 0;
-  const NOTES = [261.63, 293.66, 329.63, 392, 440, 523.25];
-  const PAT = [0, 2, 4, 5, 4, 2, 3, 1, 0, 2, 4, 2, 5, 4, 2, 0];
-  const tone = (f, t, d, v) => {
-    const o = ac.createOscillator(), gn = ac.createGain();
-    o.type = "sine"; o.frequency.value = f;
-    gn.gain.setValueAtTime(0, t);
-    gn.gain.linearRampToValueAtTime(v, t + 0.05);
-    gn.gain.exponentialRampToValueAtTime(0.001, t + d);
-    o.connect(gn); gn.connect(master); o.start(t); o.stop(t + d);
-  };
-  const bar = () => {
-    const t = ac.currentTime + 0.05;
-    for (let k = 0; k < 4; k++) tone(NOTES[PAT[pi++ % PAT.length]], t + k * 0.6, 1.8, 0.07);
-    tone(NOTES[(pi >> 2) % 2 ? 0 : 3] / 2, t, 2.6, 0.05);
-  };
-  const play = () => {
-    try {
-      if (MUSIC_SRC) {
-        aud = aud || Object.assign(new Audio(MUSIC_SRC), { loop: true, volume: 0.4 });
-        aud.play().catch(() => {});
-      } else if (window.AudioContext || window.webkitAudioContext) {
-        if (!ac) { ac = new (window.AudioContext || window.webkitAudioContext)(); master = ac.createGain(); master.gain.value = 0.8; master.connect(ac.destination); }
-        ac.resume(); clearInterval(timer); bar(); timer = setInterval(bar, 2400);
-      }
-    } catch {}
-  };
-  const stop = () => {
-    clearInterval(timer);
-    if (aud) aud.pause();
-    if (ac) ac.suspend();
-  };
-  const muIcon = () => {
-    $("mu").textContent = on ? "🎵" : "🔇";
-    $("mu").setAttribute("aria-pressed", on);
-    $("mu").setAttribute("aria-label", on ? tx("Matikan musik", "Mute music") : tx("Nyalakan musik", "Play music"));
-  };
-  $("mu").onclick = () => {
-    on = !on; sv("eco-music", on ? "on" : "off");
-    on ? play() : stop();
-    muIcon();
-  };
-  // browser hanya mengizinkan suara setelah interaksi, jadi mulai saat tombol "Mulai" ditekan
-  const sb = $("sb");
-  if (sb) sb.addEventListener("click", () => on && play());
-  document.addEventListener("visibilitychange", () => (document.hidden ? stop() : on && sb && !$("sp") && play()));
+  // const MUSIC_SRC = "sound_majalahKP.mp3";
+  // let on = ld("eco-music", "on") !== "on", ac, master, timer, aud, pi = 0;
+  // const NOTES = [261.63, 293.66, 329.63, 392, 440, 523.25];
+  // const PAT = [0, 2, 4, 5, 4, 2, 3, 1, 0, 2, 4, 2, 5, 4, 2, 0];
+  // const tone = (f, t, d, v) => {
+  //   const o = ac.createOscillator(), gn = ac.createGain();
+  //   o.type = "sine"; o.frequency.value = f;
+  //   gn.gain.setValueAtTime(0, t);
+  //   gn.gain.linearRampToValueAtTime(v, t + 0.05);
+  //   gn.gain.exponentialRampToValueAtTime(0.001, t + d);
+  //   o.connect(gn); gn.connect(master); o.start(t); o.stop(t + d);
+  // };
+  // const bar = () => {
+  //   const t = ac.currentTime + 0.05;
+  //   for (let k = 0; k < 4; k++) tone(NOTES[PAT[pi++ % PAT.length]], t + k * 0.6, 1.8, 0.07);
+  //   tone(NOTES[(pi >> 2) % 2 ? 0 : 3] / 2, t, 2.6, 0.05);
+  // };
+  // const play = () => {
+  //   try {
+  //     if (MUSIC_SRC) {
+  //       aud = aud || Object.assign(new Audio(MUSIC_SRC), { loop: true, volume: 0.4 });
+  //       aud.play().catch(() => {});
+  //     } else if (window.AudioContext || window.webkitAudioContext) {
+  //       if (!ac) { ac = new (window.AudioContext || window.webkitAudioContext)(); master = ac.createGain(); master.gain.value = 0.8; master.connect(ac.destination); }
+  //       ac.resume(); clearInterval(timer); bar(); timer = setInterval(bar, 2400);
+  //     }
+  //   } catch {}
+  // };
+  // const stop = () => {
+  //   clearInterval(timer);
+  //   if (aud) aud.pause();
+  //   if (ac) ac.suspend();
+  // };
+  // const muIcon = () => {
+  //   $("mu").textContent = on ? "🎵" : "🔇";
+  //   $("mu").setAttribute("aria-pressed", on);
+  //   $("mu").setAttribute("aria-label", on ? tx("Matikan musik", "Mute music") : tx("Nyalakan musik", "Play music"));
+  // };
+  // $("mu").onclick = () => {
+  //   on = !on; sv("eco-music", on ? "on" : "off");
+  //   on ? play() : stop();
+  //   muIcon();
+  // };
+  // // browser hanya mengizinkan suara setelah interaksi, jadi mulai saat tombol "Mulai" ditekan
+  // const sb = $("sb");
+  // if (sb) sb.addEventListener("click", () => on && play());
+  // document.addEventListener("visibilitychange", () => (document.hidden ? stop() : on && sb && !$("sp") && play()));
 
   /* ---------- checklist (slide 9) ---------- */
   function checklist(sec) {

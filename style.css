@@ -89,6 +89,9 @@ main {
   min-height: 0;
   overflow: hidden;
 }
+
+.s:not(.on) *{animation-play-state:paused!important}
+body:has(#sp) main *{animation-play-state:paused!important}
 #tr {
   display: flex;
   height: 100%;
@@ -789,8 +792,8 @@ main {
   min-width: 48px;
 }
 #ai-info {
-  background-color: white;
-  color: var(--ink);
+  background-color: transparent;
+  color: gray;
   text-align: center;
   font-size: 10px;
   margin: 0;
@@ -1100,9 +1103,6 @@ li[role="checkbox"].done {
 @keyframes spSun {
   50% {
     transform: scale(1.08);
-    box-shadow:
-      0 0 0 18px #ffe27a44,
-      0 0 60px #ffe27a;
   }
 }
 /* awan */
