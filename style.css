@@ -773,7 +773,7 @@ main {
   flex-direction: column;
   justify-content: center;
   gap: 8px;
-  padding: 10px 14px calc(2px + env(safe-area-inset-bottom, 0px));
+  padding: 10px 14px 2px;
   background: var(--card);
   border-top: 3px solid var(--ink);
 }
