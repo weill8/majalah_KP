@@ -126,10 +126,17 @@
       </div>
       <div id="msgs" aria-live="polite"></div>
       <form id="cf">
-        <input id="ci" autocomplete="off" maxlength="300"/>
-        <button id="cs" aria-label="Kirim / Send">➤</button>
+
+        <div class="ai-input-container">
+          <input id="ci" autocomplete="off" maxlength="300"/>
+          <button id="cs" aria-label="Kirim / Send">➤</button>
+        </div>
+
+        <div class="ai-info-container">
+          <p id="ai-info"></p>
+        </div>
+        
       </form>
-      <p id="ai-info"></p>
     </div>
     <script src="script.js"></script>
   </body>
